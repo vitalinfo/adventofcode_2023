@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'range'
+
 class Base
   def perform
     puts("Part 1 result: #{perform1}")
