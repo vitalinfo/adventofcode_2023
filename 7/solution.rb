@@ -28,13 +28,7 @@ class Solution < Base
   def perform1
     game = game_for
 
-    game.each_with_index do |hand1, index1|
-      game.each_with_index do |hand2, index2|
-        next if index1 == index2
-
-        hand1.rank += 1 if winning?(hand1.cards, hand2.cards)
-      end
-    end
+    calculate_ranks_for(game)
 
     game.map { _1.bid * _1.rank }.sum
   end
@@ -42,15 +36,29 @@ class Solution < Base
   def perform2
     game = game_for(joker: true)
 
-    game.each_with_index do |hand1, index1|
-      game.each_with_index do |hand2, index2|
-        next if index1 == index2
-
-        hand1.rank += 1 if winning?(hand1.cards, hand2.cards)
-      end
-    end
+    calculate_ranks_for(game)
 
     game.map { _1.bid * _1.rank }.sum
+  end
+
+  def calculate_ranks_for(game)
+    loop_for(game) do |hand1, hand2|
+      if winning?(hand1.cards, hand2.cards)
+        hand1.rank += 1
+      else
+        hand2.rank += 1
+      end
+    end
+  end
+
+  def loop_for(game)
+    game.each_with_index do |hand1, index1|
+      (index1 + 1...game.size).each do |index2|
+        hand2 = game[index2]
+
+        yield hand1, hand2
+      end
+    end
   end
 
   def game_for(joker: false)
