@@ -88,6 +88,7 @@ As you look out at the field of springs, you feel like there are way more spring
 To unfold the records, on each row, replace the list of spring conditions with five copies of itself (separated by ?) and replace the list of contiguous groups of damaged springs with five copies of itself (separated by ,).
 
 So, this row:
+
 ```
 .# 1
 ```
